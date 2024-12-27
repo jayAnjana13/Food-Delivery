@@ -7,7 +7,7 @@ import PlaceOrder from "./pages/PlaceOrder/PlaceOrder.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import { useState } from "react";
 import LoginPopup from "./components/LoginPopup/LoginPopup.jsx";
-import Verify from "./pages/Verify/verify.jsx";
+import Verify from "./pages/Verify/Verify.jsx";
 import MyOrders from "./pages/MyOrders/MyOrders.jsx";
 
 const App = () => {
