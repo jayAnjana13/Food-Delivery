@@ -12,6 +12,7 @@ const placeOrder = async (req, res) => {
 
   console.log("entered in placeorder func");
   try {
+    console.log("1 entered in try block of placeOrder func")
     const newOrder = new orderModel({
       userId: req.body.userId,
       items: req.body.items,
@@ -20,7 +21,8 @@ const placeOrder = async (req, res) => {
     });
     await newOrder.save();
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
-
+    
+    console.log("2 order saved in ordermodel")
     const line_items = req.body.items.map((item) => ({
       price_data: {
         currency: "usd",
@@ -30,8 +32,9 @@ const placeOrder = async (req, res) => {
         unit_amount: item.price * 100,
       },
       quantity: item.quantity,
+      console.log("3. inside line item")
     }));
-
+console.log("4 outside line item")
     line_items.push({
       price_data: {
         currency: "usd",
@@ -41,17 +44,19 @@ const placeOrder = async (req, res) => {
         unit_amount: 2 * 100,
       },
       quantity: 1,
+      console.log("5 line item add")
     });
-
+console.log("6 line item is added")
     const session = await stripe.checkout.sessions.create({
       line_items: line_items,
       mode: "payment",
       success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
       cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
+      console.log("7. inside session")
     });
     res.json({ success: true, session_url: session.url });
   } catch (error) {
-    console.log(error);
+    console.log("error in placeorder: ",error);
     res.json({ success: false, message: "Error in placeorder" });
   }
 };
@@ -61,15 +66,17 @@ const verifyOrder = async (req, res) => {
   const { orderId, success } = req.body;
   console.log("entered verify order");
   try {
+    console.log("8. entered in try block of verify order")
     if (success === "true") {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
       res.json({ success: true, message: "Paid" });
     } else {
+      console.log("9. entered in catch block of verifyorder")
       await orderModel.findByIdAndDelete(orderId);
       res.json({ success: false, message: "Not Paid" });
     }
   } catch (error) {
-    console.log(error);
+    console.log("errorin verify order: ",error);
     res.json({ success: false, message: "Error in verifyOrder" });
   }
 };
