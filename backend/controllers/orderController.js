@@ -32,9 +32,9 @@ const placeOrder = async (req, res) => {
         unit_amount: item.price * 100,
       },
       quantity: item.quantity,
-      console.log("3 inside line item")
+      
     }));
-console.log("4 outside line item")
+console.log("3 outside line item")
     line_items.push({
       price_data: {
         currency: "usd",
@@ -44,16 +44,17 @@ console.log("4 outside line item")
         unit_amount: 2 * 100,
       },
       quantity: 1,
-      console.log("5 line item add")
+      
     });
-console.log("6 line item is added")
+console.log("4 line item is added")
     const session = await stripe.checkout.sessions.create({
       line_items: line_items,
       mode: "payment",
       success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
       cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
-      console.log("7 inside session")
+      
     });
+    console.log("session done")
     res.json({ success: true, session_url: session.url });
   } catch (error) {
     console.log("error in placeorder: ",error);
