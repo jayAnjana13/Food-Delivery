@@ -14,4 +14,5 @@ export const assets = {
   parcel_icon,
 };
 
+export const curreny = "$";
 export const url = "https://food-delivery-backend-tyrb.onrender.com";
