@@ -32,7 +32,7 @@ const placeOrder = async (req, res) => {
         unit_amount: item.price * 100,
       },
       quantity: item.quantity,
-      console.log("3. inside line item")
+      console.log("3 inside line item")
     }));
 console.log("4 outside line item")
     line_items.push({
@@ -52,7 +52,7 @@ console.log("6 line item is added")
       mode: "payment",
       success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
       cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
-      console.log("7. inside session")
+      console.log("7 inside session")
     });
     res.json({ success: true, session_url: session.url });
   } catch (error) {
@@ -66,12 +66,12 @@ const verifyOrder = async (req, res) => {
   const { orderId, success } = req.body;
   console.log("entered verify order");
   try {
-    console.log("8. entered in try block of verify order")
+    console.log("8 entered in try block of verify order")
     if (success === "true") {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
       res.json({ success: true, message: "Paid" });
     } else {
-      console.log("9. entered in catch block of verifyorder")
+      console.log("9 entered in catch block of verifyorder")
       await orderModel.findByIdAndDelete(orderId);
       res.json({ success: false, message: "Not Paid" });
     }
