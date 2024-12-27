@@ -1,8 +1,8 @@
-// import React from "react";
+
 import Navbar from "./components/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
-import Home from "src/pages/Home/Home.jsx";
-import Cart from "./pages/Cart/Cart.jsx";
+import Home from "./pages/Home/Home.jsx";
+import Cart from "src/pages/Cart/Cart.jsx";
 import PlaceOrder from "./pages/PlaceOrder/PlaceOrder.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import { useState } from "react";
