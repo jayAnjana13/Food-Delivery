@@ -61,9 +61,7 @@ const PlaceOrder = () => {
     if (!token) {
       navigate("/cart");
     } else if (getTotalCartAmount() === 0) {
-      navigate("/cart");
-    alert("Cart Is Empty");
-    }
+      navigate("/cart");    }
   }, [token]);
 
   return (
