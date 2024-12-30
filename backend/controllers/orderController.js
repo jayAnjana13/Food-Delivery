@@ -8,7 +8,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const placeOrder = async (req, res) => {
   const frontend_url = "https://food-delivery-frontend-984o.onrender.com/";
 
-  console.log("entered in placeorder func");
   try {
     console.log("1 entered in try block of placeOrder func")
     const newOrder = new orderModel({
@@ -20,7 +19,6 @@ const placeOrder = async (req, res) => {
     await newOrder.save();
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
     
-    console.log("2 order saved in ordermodel")
     const line_items = req.body.items.map((item) => ({
       price_data: {
         currency: "usd",
@@ -32,7 +30,6 @@ const placeOrder = async (req, res) => {
       quantity: item.quantity,
       
     }));
-console.log("3 outside line item")
     line_items.push({
       price_data: {
         currency: "usd",
@@ -44,7 +41,6 @@ console.log("3 outside line item")
       quantity: 1,
       
     });
-console.log("4 line item is added")
     const session = await stripe.checkout.sessions.create({
       line_items: line_items,
       mode: "payment",
@@ -52,7 +48,6 @@ console.log("4 line item is added")
       cancel_url: `${frontend_url}verify?success=false&orderId=${newOrder._id}`,
       
     });
-    console.log("session done")
     res.json({ success: true, session_url: session.url });
   } catch (error) {
     console.log("error in placeorder: ",error);
@@ -63,18 +58,14 @@ console.log("4 line item is added")
 //verify order
 const verifyOrder = async (req, res) => {
   const { orderId, success } = req.body;
-  console.log("entered verify order");
   try {
     console.log("8 entered in try block of verify order")
     if (success === "true") {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
       res.json({ success: true, message: "Paid" });
-      console.log("9 in if condition of try block")
     } else {
       await orderModel.findByIdAndDelete(orderId);
-      res.json({ success: false, message: "Not Paid" });
-      console.log("10 entered in else condition of try block of verifyorder")
-      
+      res.json({ success: false, message: "Not Paid" });      
     }
   } catch (error) {
     console.log("errorin verify order: ",error);
