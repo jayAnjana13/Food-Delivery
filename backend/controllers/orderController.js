@@ -1,9 +1,7 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
-// import PayPal from "paypal";
 
-// const paypal = new PayPal(process.env.PAYPAL_CLIENT_ID);
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // placing user order from frontend
