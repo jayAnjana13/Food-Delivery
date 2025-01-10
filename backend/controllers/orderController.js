@@ -9,7 +9,6 @@ const placeOrder = async (req, res) => {
   const frontend_url = "https://food-delivery-frontend-984o.onrender.com/";
 
   try {
-    console.log("1 entered in try block of placeOrder func")
     const newOrder = new orderModel({
       userId: req.body.userId,
       items: req.body.items,
@@ -59,7 +58,6 @@ const placeOrder = async (req, res) => {
 const verifyOrder = async (req, res) => {
   const { orderId, success } = req.body;
   try {
-    console.log("8 entered in try block of verify order")
     if (success === "true") {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
       res.json({ success: true, message: "Paid" });
